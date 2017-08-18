@@ -6,6 +6,7 @@ import {
   ControlLabel,
 } from 'react-bootstrap';
 import './Login.css';
+import config from '../config.js';
 
 class Login extends Component {
   constructor(props) {
