@@ -9,6 +9,7 @@ import {
 import LoaderButton from '../components/LoaderButton';
 import config from '../config.js';
 import './NewNote.css';
+import { invokeApig, s3Upload } from '../libs/awsLib';
 
 class NewNote extends Component {
     constructor(props) {
@@ -45,6 +46,35 @@ class NewNote extends Component {
         }
 
         this.setState({ isLoading: true });
+
+        try {
+            const uploadedFilename = (this.file)
+                ? (await s3Upload(this.file, this.props.userToken)).Location
+                : null;
+
+            console.log(`uploaded file successfully`);
+
+            await this.createNote({
+                content: this.state.content,
+                attachment: uploadedFilename,
+            });
+
+            console.log(`created note successfully`);
+
+            this.props.history.push('/');
+        }
+        catch(e) {
+            alert(e);
+            this.setState({ isLoading: false });
+        }
+    }
+
+    createNote(note) {
+        return invokeApig({
+            path: '/notes',
+            method: 'POST',
+            body: note,
+        }, this.props.userToken);
     }
 
     render() {

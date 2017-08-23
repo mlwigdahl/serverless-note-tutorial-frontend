@@ -7,6 +7,7 @@ import './App.css';
 import Routes from './Routes';
 import RouteNavItem from './components/RouteNavItem';
 import config from './config.js'
+import AWS from 'aws-sdk';
 
 class App extends Component {
 
@@ -52,6 +53,10 @@ class App extends Component {
 
         if (currentUser !== null) {
             currentUser.signOut();
+        }
+
+        if (AWS.config.credentials) {
+          AWS.config.credentials.clearCachedId();
         }
 
         this.updateUserToken(null);
