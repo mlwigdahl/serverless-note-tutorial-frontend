@@ -20,34 +20,39 @@ const MyLoadingComponent = ({isLoading, error}) => {
   }
 };
 
-import AsyncHome = Loadable({
+const AsyncHome = Loadable({
     loader: () => import('./containers/Home'),
     loading: MyLoadingComponent,
 });
 
-import AsyncSignup = Loadable({
+const AsyncLogin = Loadable({
+    loader: () => import('./containers/Login'),
+    loading: MyLoadingComponent,
+});
+
+const AsyncSignup = Loadable({
     loader: () => import('./containers/Signup'),
     loading: MyLoadingComponent,
 });
 
-import AsyncNewNote = Loadable({
+const AsyncNewNote = Loadable({
     loader: () => import('./containers/NewNote'),
     loading: MyLoadingComponent,
 });
 
-import AsyncNotes = Loadable({
+const AsyncNotes = Loadable({
     loader: () => import('./containers/Notes'),
     loading: MyLoadingComponent,
 });
 
-import AsyncNotFound = Loadable({
+const AsyncNotFound = Loadable({
     loader: () => import('./containers/NotFound'),
     loading: MyLoadingComponent,
 });
 
 export default ({ childProps }) => (
     <Switch>
-        <AppliedRoute path="/" exact component={Home} props={childProps}/>
+        <AppliedRoute path="/" exact component={AsyncHome} props={childProps}/>
         <UnauthenticatedRoute path="/login" exact component={AsyncLogin} props={childProps}/>
         <UnauthenticatedRoute path="/signup" exact component={AsyncSignup} props={childProps} />
         <AuthenticatedRoute path="/notes/new" exact component={AsyncNewNote} props={childProps} />
